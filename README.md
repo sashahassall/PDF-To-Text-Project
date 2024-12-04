@@ -1,5 +1,5 @@
-#PDF-to-Audio Converter
-Turn your PDFs into audio files for smooth listening. This project uses **Python**, **Flask**, **HTML** and **text-to-speech technology** to provide an aesthetic and user-friendly web-based tool.
+# PDF-to-Audio Converter
+Turn your PDFs into audio files for smooth listening. This project uses **Python**, **Flask**, **HTML**, and **text-to-speech technology** to provide an aesthetic and user-friendly web-based tool.
 
 ## 🌟 Features
 - **PDF Upload**: Upload any PDF for processing.
@@ -11,10 +11,13 @@ Turn your PDFs into audio files for smooth listening. This project uses **Python
 ## 🚀 Demo
 Here's a quick walkthrough of the project: 
 
-<video controls src="Demo - Made with Clipchamp.mp4" title="PDF-to-Audio-Demo"></video>
+https://github.com/user-attachments/assets/b86a8fb9-4dfc-450d-aa8d-717ff658251d
 
-## Screenshots 
-![Interface](image.png)
+
+
+## Screenshot
+![Interface](https://github.com/user-attachments/assets/169a9f69-6cc6-4144-bc1d-2e48309e1c18)
+
 
 
 ## 🛠️ Technologies Used
