@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='pdf-file.png') }}" class="pdf-img" height="64" width="64">
+
+    <div class="black-box">
+        <div class="white-box">
+            <span class="info-text">UPLOAD YOUR PDF AND HAVE IT READ ALOUD</span>
+            <form action="/process-pdf" method="post" enctype="multipart/form-data" id="pdfForm">
+                <div class="file-upload">
+                    <input type="file" name="pdfFile" id="pdfFile" class="file-input" accept=".pdf">
+                    <label for="pdfFile" class="custom-file-button">CHOOSE PDF</label>
+                </div>
+                
+            </form>
+        </div>
+
+        <div class="display-box">
+            <div class="oval"></div>
+            <audio controls id="audio-player">
+                <source id="audio-source" src="{{ audio_file or '' }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
+            <div class="download-button-container">
+                <a href="{{ url_for('static', filename='audio/PDFaudio.mp3') }}" download="PDFaudio.mp3">
+                    <button id="download-btn"></button>
+                    <img src="{{ url_for('static', filename='downloads.png') }}" width="32" height="32" alt="Download Icon" class="download-overlay">
+                </a>
+            </div>
+
+            <span class="download-text">DOWNLOAD</span>
+
+            <img src="{{ url_for('static', filename='controlPanel.png') }}" class="control-panel">
+
+            <canvas id="waveform" width="5000" height="250"></canvas>
+        </div>
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                        const messageBox = document.getElementById('message-box');
+                        const messageContent = "{{ message or '' }}";
+                        if (messageContent) {
+                            messageBox.textContent = messageContent;
+                            messageBox.style.display = 'block';
+                            setTimeout(() => {
+                                messageBox.style.display = 'none';
+                            }, 5000);
+                        }
+                    });
+            document.addEventListener('DOMContentLoaded', function () {
+                const pdfInput = document.getElementById('pdfFile');
+                const form = document.getElementById('pdfForm');
+
+                pdfInput.addEventListener('change', function () {
+                    if (pdfInput.files.length > 0) {
+                        form.submit();
+                    }
+                });
+
+                const audioPlayer = document.getElementById('audio-player');
+                const canvas = document.getElementById('waveform');
+                const canvasCtx = canvas.getContext('2d');
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                const source = audioContext.createMediaElementSource(audioPlayer);
+
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                function draw() {
+                    requestAnimationFrame(draw);
+                    analyser.getByteFrequencyData(dataArray);
+                    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+                    const barWidth = (canvas.width / bufferLength) * 1;
+                    let x = 0;
+
+                    for (let i = 0; i < bufferLength; i++) {
+                        const barHeight = dataArray[i];
+                        canvasCtx.fillStyle = `rgba(${270 - barHeight}, ${barHeight}, 255, 0.3)`;
+                        canvasCtx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight);
+                        x += barWidth + 1;
+                    }
+                }
+
+                audioPlayer.addEventListener('play', function () {
+                    audioContext.resume().then(() => {
+                        draw();
+                    });
+                });
+
+                document.getElementById('reset-audio-btn').addEventListener('click', function () {
+                    const audioSource = document.getElementById('audio-source');
+                    audioSource.src = '';
+                    audioPlayer.load();
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
