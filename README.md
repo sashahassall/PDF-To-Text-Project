@@ -1,14 +1,14 @@
 # PDF-to-Audio Converter
-Turn your PDFs into audio files for smooth listening. This project uses **Python**, **Flask**, **HTML**, and **text-to-speech technology** to provide an aesthetic and user-friendly web-based tool.
 
-## 🌟 Features
+
+##  Features
 - **PDF Upload**: Upload any PDF for processing.
 - **Text-to-Speech Conversion**: Converts PDF text into audio.
 - **Audio Visualization**: Real-time waveform rendering for a fun and enjoyable audio playback experience.
 - **File Management**: Automatically clears old files to optimize storage and performance.
 - **Downloadable Output**: Save the generated audio file (`.mp3`) to your device.
 
-## 🚀 Demo
+##  Demo
 Here's a quick walkthrough of the project: 
 
 https://github.com/user-attachments/assets/b86a8fb9-4dfc-450d-aa8d-717ff658251d
